@@ -7,8 +7,32 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/login", 
+        {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email: email, password: password}),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+
+    } catch (error) {
+
+      console.error('Login error', error);
+    }
   };
 
   return (
