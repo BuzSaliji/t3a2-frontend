@@ -1,0 +1,22 @@
+.footer {
+    background-color: #2a2a2a; /* Dark background */
+    color: #abedd8; /* Light text */
+    padding: 20px;
+    margin-top: auto ;
+}
+
+.cc-c {
+    margin-top: 10px; /* Adjust as needed */
+    margin-bottom: 0; /* Remove extra bottom margin */
+    font-size: 10px;
+    text-align: center;
+}
+
+.social-media-links {
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        gap: 30px; 
+        padding: 10px;
+    }
+    

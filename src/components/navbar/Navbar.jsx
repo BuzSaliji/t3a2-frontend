@@ -21,7 +21,6 @@ function Navbar() {
                 <img src={logo} alt="Court Connect Logo" className="navbar-logo" />
             </Link>
             <button className="nav-toggle" onClick={toggleMenu}>
-                {/* Hamburger icon or text */}
             </button>
             <Menu right isOpen={menuOpen} onStateChange={handleStateChange}>
                 <Link to="/" className="menu-item" onClick={() => setMenuOpen(false)}>Login</Link>
