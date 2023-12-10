@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './Register.css'; // Create and link a CSS file for styling
+import { Link } from 'react-router-dom';
+import logo from '../../assets/images/Black logo - no background.png';
+import './Register.css';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -13,6 +15,7 @@ function Register() {
 
     return (
         <div className="register-container">
+            <img src={logo} alt="Court Connect Logo" className="logo" />
             <h1>Register</h1>
             <form className="register-form" onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -43,6 +46,7 @@ function Register() {
                     />
                 </div>
                 <button type="submit">Register</button>
+                <p>Already have an account? <Link to="/">Log In!</Link></p>
             </form>
         </div>
     );
