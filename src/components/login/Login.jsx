@@ -40,12 +40,11 @@ function Login() {
   return (
     
     <div className="login-container">
-      <h1>Welcome To</h1>
       <div className="logo-container">
       <img src={logo} alt="Court Connect Logo" className="logo" />
 
       </div>
-      <h2>Login</h2>
+      <h1>Login</h1>
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
