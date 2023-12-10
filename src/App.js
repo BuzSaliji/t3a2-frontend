@@ -4,8 +4,8 @@ import Login from './components/login/Login.jsx';
 import Register from './components/register/Register.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
 import Footer from './components/footer/Footer.jsx';
+import CalendarComponent from './components/calendar/Calendar.jsx'; 
 import './App.css';
-import Calendar from 'react-calendar';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} /> 
-          <Route path="/calendar" element={<Calendar />} />   
+          <Route path="/calendar" element={<CalendarComponent />} /> 
         </Routes>
       <Footer />
     </Router>

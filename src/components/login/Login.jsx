@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/Black logo - no background.png';
 
 import './Login.css';
@@ -7,6 +7,7 @@ import './Login.css';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,12 +30,16 @@ function Login() {
   
       const data = await response.json();
       console.log(data);
+
+      navigate('/calendar');
       
   
     } catch (error) {
       console.error('Login error', error);
       
     }
+
+
   };
 
   return (

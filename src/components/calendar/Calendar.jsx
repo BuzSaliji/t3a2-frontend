@@ -16,6 +16,7 @@ function CalendarComponent() {
                 onChange={onChange}
                 value={date}
             />
+            {/* Additional elements */}
         </div>
     );
 }

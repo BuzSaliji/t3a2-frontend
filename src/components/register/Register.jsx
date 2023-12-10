@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/Black logo - no background.png';
 import './Register.css';
 
@@ -7,6 +7,7 @@ function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const Navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -37,11 +38,15 @@ function Register() {
             // Handle the response data
             const data = await response.json();
             console.log(data);
-            // TODO: Redirect to Calendar page
+            
+            navigator('/calendar')
+
         } catch (error) {
             console.error('Registration error:', error);
     };
-}  
+
+    Navigate('/calendar')
+};  
 
     return (
         <div className="register-container">
