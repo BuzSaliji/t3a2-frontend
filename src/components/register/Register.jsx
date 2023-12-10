@@ -10,39 +10,38 @@ function Register() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
+        // Construct the user data
         const userData = {
             username,
             email,
-            password,
+            password
         };
-
+    
         try {
-            const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/users`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(userData),
-                }
-            );
-
+            // Send a POST request to the backend
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData), 
+            });
+    
+            // Check if the request was successful
             if (!response.ok) {
-                throw new Error('Registration failed');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Registration failed');
             }
-
+    
+            // Handle the response data
             const data = await response.json();
             console.log(data);
-
             // TODO: Redirect to Calendar page
-
         } catch (error) {
-            console.error('Registration error', error);
-        }
-        
+            console.error('Registration error:', error);
     };
+}  
 
     return (
         <div className="register-container">
