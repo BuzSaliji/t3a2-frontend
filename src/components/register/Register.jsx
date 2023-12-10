@@ -10,6 +10,37 @@ function Register() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const userData = {
+            username,
+            email,
+            password,
+        };
+
+        try {
+            const response = await fetch(
+                `${process.env.REACT_APP_BACKEND_URL}/users`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Registration failed');
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            // TODO: Redirect to Calendar page
+
+        } catch (error) {
+            console.error('Registration error', error);
+        }
         
     };
 
