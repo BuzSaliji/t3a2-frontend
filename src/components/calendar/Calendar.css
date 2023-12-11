@@ -1,44 +1,62 @@
 .calendar-container {
-    max-width: 600px; /* Adjust the width as needed */
-    margin: 0 auto; /* Center the calendar */
+    max-width: 600px; 
+    margin: 20px auto; 
     padding: 20px;
-    background-color: #fff; /* Background color for the calendar */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #abedd8; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .react-calendar {
-    border: none; /* Remove default border */
+    border: none;
+    padding: 10px;
 }
 
 .react-calendar__navigation {
-    background-color: #abedd8; /* Your theme color */
-    border-bottom: 1px solid #ddd; /* Separator */
+    background-color: #2b2b2b;
+    border-bottom: 1px solid #ddd;
+    color: #abedd8;
 }
 
 .react-calendar__navigation button {
-    color: #2b2b2b; /* Text color */
-    min-width: 44px;
-    background: none;
-    font-size: 16px;
+    color: #abedd8;  
+}
+
+.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+    text-align: center;
+    color: #abedd8;
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    width: 100%; 
 }
 
 .react-calendar__month-view__weekdays {
     text-align: center;
-    color: #2b2b2b; /* Text color for weekdays */
+    color: #2b2b2b; 
 }
 
 .react-calendar__month-view__days__day {
-    padding: 8px 0; /* Adjust padding for each day */
+    padding: 8px 0;
+}
+
+.react-calendar__tile--active {
+    background-color: #2b2b2b;
+    color: white;
+}
+
+.react-calendar__tile-content {
+    visibility: visible;
+}
+
+.react-calendar__tile {
+    color: #333; /* Dark color for text */
+    background-color: #fff; /* Light color for background */
 }
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-    background-color: #e6f4f1; /* Hover background color */
-    color: #2b2b2b; /* Text color on hover */
+    background-color: #e6f4f1;
+    color: #2b2b2b; 
 }
 
-.react-calendar__tile--active {
-    background-color: #2b2b2b; /* Background color for selected date */
-    color: white; /* Text color for selected date */
-}
