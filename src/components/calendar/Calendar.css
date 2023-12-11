@@ -22,6 +22,11 @@
     color: #abedd8;  
 }
 
+.react-calendar__navigation button:hover {
+    background-color: #2b2b2b;
+    color: #2b2b2b;
+}
+
 .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
     text-align: center;
     color: #abedd8;
