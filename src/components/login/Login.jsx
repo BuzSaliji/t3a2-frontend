@@ -57,7 +57,7 @@ function Login() {
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" id="password" value={password} autoComplete="current-password" onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit">Login</button>
         <p className="signup-link">Not registered? <Link to="/register">Sign up!</Link></p>

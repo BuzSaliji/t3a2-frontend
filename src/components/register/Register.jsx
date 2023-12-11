@@ -7,7 +7,7 @@ function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,13 +39,12 @@ function Register() {
             const data = await response.json();
             console.log(data);
             
-            navigator('/calendar')
+            navigate('/calendar')
 
         } catch (error) {
             console.error('Registration error:', error);
     };
 
-    Navigate('/calendar')
 };  
 
     return (
@@ -76,7 +75,8 @@ function Register() {
                     <input 
                         type="password" 
                         id="password" 
-                        value={password} 
+                        value={password}
+                        autoComplete="current-password"
                         onChange={(e) => setPassword(e.target.value)} 
                     />
                 </div>
