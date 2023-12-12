@@ -25,6 +25,7 @@ function Navbar() {
             <Menu right isOpen={menuOpen} onStateChange={handleStateChange}>
                 <Link to="/" className="menu-item" onClick={() => setMenuOpen(false)}>Login</Link>
                 <Link to="/register" className="menu-item" onClick={() => setMenuOpen(false)}>Register</Link>
+                <Link to="/calendar" className="menu-item" onClick={() => setMenuOpen(false)}>Calendar</Link>
                 {/* Add more links */}
             </Menu>
         </nav>

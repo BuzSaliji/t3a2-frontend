@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/Black logo - no background.png';
 
 import './Login.css';
@@ -7,35 +7,36 @@ import './Login.css';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/users/login`, 
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Login failed');
         }
-      );
-  
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-  
-      const data = await response.json();
-      console.log(data);
-      
-  
+
+        const data = await response.json();
+        console.log('Response data:', data);
+
+       
+        localStorage.setItem('token', data.jwt);
+
+        
+        navigate('/calendar');
     } catch (error) {
-      console.error('Login error', error);
-      
+        console.error('Login error:', error);
     }
-  };
+};
 
   return (
     
@@ -52,7 +53,7 @@ function Login() {
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" id="password" value={password} autoComplete="current-password" onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit">Login</button>
         <p className="signup-link">Not registered? <Link to="/register">Sign up!</Link></p>
