@@ -25,21 +25,38 @@ function CalendarComponent() {
         const formattedDate = date.toISOString().split('T')[0];
         const court1Id = '65768b76da0ab5cec28c9f33'; 
         const court2Id = '65768b76da0ab5cec28c9f34'; 
-
+        const token = localStorage.getItem('token');
+        console.log("Token: ", token);
+    
         try {
             // Fetch bookings for Court 1
-            const responseCourt1 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court1Id}&startDate=${formattedDate}&endDate=${formattedDate}`);
+            const responseCourt1 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court1Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!responseCourt1.ok) {
+                throw new Error('Failed to fetch bookings for Court 1');
+            }
             const dataCourt1 = await responseCourt1.json();
             setCourt1Bookings(dataCourt1);
-
+    
             // Fetch bookings for Court 2
-            const responseCourt2 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court2Id}&startDate=${formattedDate}&endDate=${formattedDate}`);
+            const responseCourt2 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court2Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!responseCourt2.ok) {
+                throw new Error('Failed to fetch bookings for Court 2');
+            }
             const dataCourt2 = await responseCourt2.json();
             setCourt2Bookings(dataCourt2);
         } catch (error) {
             console.error('Error fetching bookings:', error);
         }
     };
+    
 
     const calculateAvailableTimeSlots = (bookings) => {
         const operatingHours = { start: 9, end: 20 }; // 9:00 AM to 8:00 PM

@@ -39,7 +39,7 @@ function Register() {
             const data = await response.json();
             console.log(data);
             
-            navigate('/calendar')
+            navigate('/')
 
         } catch (error) {
             console.error('Registration error:', error);
