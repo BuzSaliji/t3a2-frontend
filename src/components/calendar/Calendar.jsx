@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import moment from 'moment-timezone';
+
 import 'react-calendar/dist/Calendar.css';
 import './Calendar.css'; 
+
+// Assume 'utcTime' is the time fetched from your server in UTC
+const utcTime = '2023-12-12T09:00:00Z'; // Example UTC time
+
+// Convert UTC time to local time
+const localTime = moment(utcTime).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss');
+
+console.log(localTime); // This will display the time in the user's local time zone
+
 
 function CalendarComponent() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -39,6 +50,7 @@ function CalendarComponent() {
                 throw new Error('Failed to fetch bookings for Court 1');
             }
             const dataCourt1 = await responseCourt1.json();
+            console.log("Court 1 Bookings:", dataCourt1);
             setCourt1Bookings(dataCourt1);
     
             // Fetch bookings for Court 2
@@ -51,6 +63,7 @@ function CalendarComponent() {
                 throw new Error('Failed to fetch bookings for Court 2');
             }
             const dataCourt2 = await responseCourt2.json();
+            console.log("Court 2 Bookings:", dataCourt2);
             setCourt2Bookings(dataCourt2);
         } catch (error) {
             console.error('Error fetching bookings:', error);
@@ -59,30 +72,36 @@ function CalendarComponent() {
     
 
     const calculateAvailableTimeSlots = (bookings) => {
-        const operatingHours = { start: 9, end: 20 }; // 9:00 AM to 8:00 PM
+        const operatingHours = { start: 9, end: 20 }; 
         const timeSlots = [];
-
-        // Generate all possible time slots for the day
+    
         for (let hour = operatingHours.start; hour < operatingHours.end; hour++) {
             const slotStart = new Date(selectedDate);
             slotStart.setHours(hour, 0, 0, 0);
             const slotEnd = new Date(slotStart);
             slotEnd.setHours(hour + 1, 0, 0, 0);
-
-            // Check if the slot overlaps with any existing bookings
+    
+            // console.log(`Slot Start: ${slotStart}, Slot End: ${slotEnd}`); 
+    
             const isAvailable = !bookings.some(booking => {
                 const bookingStart = new Date(booking.timeSlot.start);
                 const bookingEnd = new Date(booking.timeSlot.end);
-                return (slotStart < bookingEnd && slotEnd > bookingStart);
+                
+                // console.log(`Booking Start: ${bookingStart}, Booking End: ${bookingEnd}`);
+    
+                if (slotStart < bookingEnd && slotEnd > bookingStart) {
+                    console.log('This slot should be marked as unavailable'); 
+                    return true;
+                }
+                return false;
             });
-
-            if (isAvailable) {
-                timeSlots.push(`${hour.toString().padStart(2, '0')}:00`);
-            }
+    
+            timeSlots.push({ time: `${hour.toString().padStart(2, '0')}:00`, available: isAvailable });
         }
-
+    
         return timeSlots;
     };
+    
 
     const handleTimeSlotSelection = (slot, courtNumber) => {
         console.log(`Selected time slot for Court ${courtNumber}:`, slot);
@@ -105,22 +124,36 @@ function CalendarComponent() {
                 <div className="court-container">
                     <h3>Court 1</h3>
                     <div className="time-slots">
-                        {court1TimeSlots.map((slot, index) => (
-                            <button key={index} onClick={() => handleTimeSlotSelection(slot, 1)}>
-                                {slot}
+                    {court1TimeSlots.map((slot, index) => {
+                        // console.log(`Rendering Court 1 Slot: ${slot.time}, Available: ${slot.available}`);
+                        return (
+                            <button 
+                                key={index} 
+                                onClick={() => slot.available && handleTimeSlotSelection(slot.time, 1)}
+                                className={slot.available ? "" : "unavailable-slot"}
+                            >
+                                {slot.time}
                             </button>
-                        ))}
+                        );
+                    })}
                     </div>
                 </div>
     
                 <div className="court-container">
                     <h3>Court 2</h3>
                     <div className="time-slots">
-                        {court2TimeSlots.map((slot, index) => (
-                            <button key={index} onClick={() => handleTimeSlotSelection(slot, 2)}>
-                                {slot}
+                    {court2TimeSlots.map((slot, index) => {
+                        // console.log(`Rendering Court 2 Slot: ${slot.time}, Available: ${slot.available}`);
+                        return (
+                            <button 
+                                key={index} 
+                                onClick={() => slot.available && handleTimeSlotSelection(slot.time, 2)}
+                                className={slot.available ? "" : "unavailable-slot"}
+                            >
+                                {slot.time}
                             </button>
-                        ))}
+                        );
+                    })}
                     </div>
                 </div>
             </div>
