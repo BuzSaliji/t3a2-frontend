@@ -89,9 +89,7 @@ function CalendarComponent() {
         setSelectedTimeSlot(slot);
         setSelectedCourt(courtNumber);
 
-        // Additional actions, such as opening a modal, navigating to a booking page, etc.
-        // For example, you might want to set a state to open a modal where the user can confirm their booking
-        // setBookingModalOpen(true);
+        // Modal to proceed to booking page
     };
 
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
