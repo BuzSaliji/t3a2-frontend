@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
-
+import Modal from '../modal/Modal';
 import 'react-calendar/dist/Calendar.css';
 import './Calendar.css'; 
 
-// Assume 'utcTime' is the time fetched from your server in UTC
-const utcTime = '2023-12-12T09:00:00Z'; // Example UTC time
 
-// Convert UTC time to local time
+const utcTime = '2023-12-12T09:00:00Z';
+
+
 const localTime = moment(utcTime).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss');
 
-console.log(localTime); // This will display the time in the user's local time zone
+console.log(localTime); 
 
 
 function CalendarComponent() {
@@ -21,7 +21,8 @@ function CalendarComponent() {
     // eslint-disable-next-line no-unused-vars
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
     // eslint-disable-next-line no-unused-vars
-    const [selectedCourt, setSelectedCourt] = useState(null);
+    const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         fetchBookings(selectedDate);
@@ -105,10 +106,19 @@ function CalendarComponent() {
 
     const handleTimeSlotSelection = (slot, courtNumber) => {
         console.log(`Selected time slot for Court ${courtNumber}:`, slot);
-        setSelectedTimeSlot(slot);
-        setSelectedCourt(courtNumber);
+        setSelectedTimeSlots(prevSlots => {
+            // Add or remove the slot from the selection
+            const slotIndex = prevSlots.findIndex(s => s.time === slot.time && s.courtNumber === courtNumber);
+            if (slotIndex > -1) {
+                return prevSlots.filter((_, index) => index !== slotIndex);
+            } else {
+                return [...prevSlots, { time: slot.time, courtNumber: courtNumber }];
+            }
+        });
+    };
 
-        // Modal to proceed to booking page
+    const handleProceedClick = () => {
+        setShowModal(true);
     };
 
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
