@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
-import Modal from '../modal/Modal';
+import Modal from '../modal/Modal'; 
 import 'react-calendar/dist/Calendar.css';
-import './Calendar.css'; 
-
+import './Calendar.css';
 
 const utcTime = '2023-12-12T09:00:00Z';
-
-
 const localTime = moment(utcTime).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss');
-
 console.log(localTime); 
 
 
@@ -22,7 +18,7 @@ function CalendarComponent() {
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
     // eslint-disable-next-line no-unused-vars
     const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState(null);
 
     useEffect(() => {
         fetchBookings(selectedDate);
@@ -105,21 +101,9 @@ function CalendarComponent() {
     
 
     const handleTimeSlotSelection = (slot, courtNumber) => {
-        console.log(`Selected time slot for Court ${courtNumber}:`, slot);
-        setSelectedTimeSlots(prevSlots => {
-            // Add or remove the slot from the selection
-            const slotIndex = prevSlots.findIndex(s => s.time === slot.time && s.courtNumber === courtNumber);
-            if (slotIndex > -1) {
-                return prevSlots.filter((_, index) => index !== slotIndex);
-            } else {
-                return [...prevSlots, { time: slot.time, courtNumber: courtNumber }];
-            }
-        });
+        setSelectedBooking({ time: slot.time, courtNumber: courtNumber, date: selectedDate });
     };
 
-    const handleProceedClick = () => {
-        setShowModal(true);
-    };
 
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
     const court2TimeSlots = calculateAvailableTimeSlots(court2Bookings);
@@ -164,6 +148,14 @@ function CalendarComponent() {
                             </button>
                         );
                     })}
+                       
+                        {/* Modal for booking confirmation */}
+                        {selectedBooking && (
+                            <Modal
+                                selectedBooking={selectedBooking}
+                                onClose={() => setSelectedBooking(null)}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
