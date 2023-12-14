@@ -90,6 +90,7 @@ function CalendarComponent() {
                     console.log('This slot should be marked as unavailable'); 
                     return true;
                 }
+                console.log("Generated time slots:", timeSlots);
                 return false;
             });
     
@@ -101,8 +102,14 @@ function CalendarComponent() {
     
 
     const handleTimeSlotSelection = (slot, courtNumber) => {
-        setSelectedBooking({ time: slot.time, courtNumber: courtNumber, date: selectedDate });
+        // console.log("Slot selected:", slot);
+        const newBooking = { time: slot.time, courtNumber: courtNumber, date: selectedDate };
+        setSelectedBooking(newBooking);
     };
+
+    useEffect(() => {
+        // console.log("Updated selectedBooking state:", selectedBooking);
+    }, [selectedBooking]);
 
 
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
@@ -123,7 +130,7 @@ function CalendarComponent() {
                         return (
                             <button 
                                 key={index} 
-                                onClick={() => slot.available && handleTimeSlotSelection(slot.time, 1)}
+                                onClick={() => slot.available && handleTimeSlotSelection(slot, 1)}
                                 className={slot.available ? "" : "unavailable-slot"}
                             >
                                 {slot.time}
@@ -141,7 +148,7 @@ function CalendarComponent() {
                         return (
                             <button 
                                 key={index} 
-                                onClick={() => slot.available && handleTimeSlotSelection(slot.time, 2)}
+                                onClick={() => slot.available && handleTimeSlotSelection(slot, 2)}
                                 className={slot.available ? "" : "unavailable-slot"}
                             >
                                 {slot.time}
@@ -149,7 +156,6 @@ function CalendarComponent() {
                         );
                     })}
                        
-                        {/* Modal for booking confirmation */}
                         {selectedBooking && (
                             <Modal
                                 selectedBooking={selectedBooking}

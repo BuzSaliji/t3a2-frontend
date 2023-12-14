@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Modal.css'; 
 
 const Modal = ({ selectedBooking, onClose }) => {
+    console.log("Modal time:", selectedBooking ? selectedBooking.time : "No booking");
     const navigate = useNavigate(); 
     const [error, setError] = useState('');
 
@@ -62,7 +63,9 @@ const Modal = ({ selectedBooking, onClose }) => {
             <div className="modal-content">
                 <span className="close" onClick={onClose}>&times;</span>
                 <h2>Confirm Your Booking</h2>
-                <p>Court {selectedBooking.courtNumber} at {selectedBooking.time}</p>
+                {selectedBooking && (
+                    <p>Court {selectedBooking.courtNumber} at {selectedBooking.time}</p>
+                )}
                 {error && <div className="error-message">{error}</div>}
                 <button onClick={handleBookingConfirmation}>Confirm Booking</button>
             </div>
