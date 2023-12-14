@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
-
+import Modal from '../modal/Modal'; 
 import 'react-calendar/dist/Calendar.css';
-import './Calendar.css'; 
+import './Calendar.css';
 
-// Assume 'utcTime' is the time fetched from your server in UTC
-const utcTime = '2023-12-12T09:00:00Z'; // Example UTC time
-
-// Convert UTC time to local time
+const utcTime = '2023-12-12T09:00:00Z';
 const localTime = moment(utcTime).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss');
-
-console.log(localTime); // This will display the time in the user's local time zone
+console.log(localTime); 
 
 
 function CalendarComponent() {
@@ -21,7 +17,8 @@ function CalendarComponent() {
     // eslint-disable-next-line no-unused-vars
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
     // eslint-disable-next-line no-unused-vars
-    const [selectedCourt, setSelectedCourt] = useState(null);
+    const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
+    const [selectedBooking, setSelectedBooking] = useState(null);
 
     useEffect(() => {
         fetchBookings(selectedDate);
@@ -93,6 +90,7 @@ function CalendarComponent() {
                     console.log('This slot should be marked as unavailable'); 
                     return true;
                 }
+                console.log("Generated time slots:", timeSlots);
                 return false;
             });
     
@@ -104,12 +102,15 @@ function CalendarComponent() {
     
 
     const handleTimeSlotSelection = (slot, courtNumber) => {
-        console.log(`Selected time slot for Court ${courtNumber}:`, slot);
-        setSelectedTimeSlot(slot);
-        setSelectedCourt(courtNumber);
-
-        // Modal to proceed to booking page
+        // console.log("Slot selected:", slot);
+        const newBooking = { time: slot.time, courtNumber: courtNumber, date: selectedDate };
+        setSelectedBooking(newBooking);
     };
+
+    useEffect(() => {
+        // console.log("Updated selectedBooking state:", selectedBooking);
+    }, [selectedBooking]);
+
 
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
     const court2TimeSlots = calculateAvailableTimeSlots(court2Bookings);
@@ -129,7 +130,7 @@ function CalendarComponent() {
                         return (
                             <button 
                                 key={index} 
-                                onClick={() => slot.available && handleTimeSlotSelection(slot.time, 1)}
+                                onClick={() => slot.available && handleTimeSlotSelection(slot, 1)}
                                 className={slot.available ? "" : "unavailable-slot"}
                             >
                                 {slot.time}
@@ -147,13 +148,20 @@ function CalendarComponent() {
                         return (
                             <button 
                                 key={index} 
-                                onClick={() => slot.available && handleTimeSlotSelection(slot.time, 2)}
+                                onClick={() => slot.available && handleTimeSlotSelection(slot, 2)}
                                 className={slot.available ? "" : "unavailable-slot"}
                             >
                                 {slot.time}
                             </button>
                         );
                     })}
+                       
+                        {selectedBooking && (
+                            <Modal
+                                selectedBooking={selectedBooking}
+                                onClose={() => setSelectedBooking(null)}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
