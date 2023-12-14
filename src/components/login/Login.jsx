@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+
 import logo from '../../assets/images/Black logo - no background.png';
 
 import './Login.css';
@@ -7,6 +9,7 @@ import './Login.css';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -28,10 +31,10 @@ function Login() {
         const data = await response.json();
         console.log('Response data:', data);
 
-       
-        localStorage.setItem('token', data.jwt);
+        // Use the login method from the context after the response is successful
+        login(data.user, data.jwt);
 
-        
+        // Navigate to the calendar page
         navigate('/calendar');
     } catch (error) {
         console.error('Login error:', error);

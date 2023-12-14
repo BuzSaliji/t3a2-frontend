@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { BookingContext } from '../../context/BookingContext';
 import { useNavigate } from 'react-router-dom';
 import './Modal.css'; 
 
-const Modal = ({ selectedBooking, onClose }) => {
-    console.log("Modal time:", selectedBooking ? selectedBooking.time : "No booking");
+const Modal = ({ onClose }) => {
+    const { selectedBooking } = useContext(BookingContext);
+    // console.log("Modal time:", selectedBooking ? selectedBooking.time : "No booking");
     const navigate = useNavigate(); 
     const [error, setError] = useState('');
 
@@ -17,7 +19,7 @@ const Modal = ({ selectedBooking, onClose }) => {
         startTime.setHours(hours, minutes, 0, 0);
     
         const endTime = new Date(startTime);
-        endTime.setHours(endTime.getHours() + 1); // Assuming 1 hour duration
+        endTime.setHours(endTime.getHours() + 1); 
     
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings`, {
