@@ -90,7 +90,7 @@ function CalendarComponent() {
                     console.log('This slot should be marked as unavailable'); 
                     return true;
                 }
-                console.log("Generated time slots:", timeSlots);
+                // console.log("Generated time slots:", timeSlots);
                 return false;
             });
     
