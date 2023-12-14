@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useCallback } from 'react';
-import { BookingContext } from '../context/BookingContext';
+import { BookingContext } from '../../context/BookingContext';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
 import Modal from '../modal/Modal'; 

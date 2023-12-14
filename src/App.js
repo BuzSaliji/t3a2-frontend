@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { UserProvider } from './components/context/UserContext.jsx';
+import { UserProvider } from './context/UserContext.jsx';
+import { BookingProvider } from './context/BookingContext';
 import Login from './components/login/Login.jsx';
 import Register from './components/register/Register.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
@@ -11,6 +12,7 @@ import './App.css';
 function App() {
   return (
     <UserProvider>
+      <BookingProvider>
       <Router>
         <Navbar />
           <Routes>
@@ -20,6 +22,7 @@ function App() {
           </Routes>
         <Footer />
       </Router>
+      </BookingProvider>
     </UserProvider>
   );
 }
