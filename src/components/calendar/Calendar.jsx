@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext, useCallback } from 'react';
+import { BookingContext } from '../context/BookingContext';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
 import Modal from '../modal/Modal'; 
@@ -9,35 +10,21 @@ const utcTime = '2023-12-12T09:00:00Z';
 const localTime = moment(utcTime).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss');
 console.log(localTime); 
 
-
 function CalendarComponent() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [court1Bookings, setCourt1Bookings] = useState([]);
-    const [court2Bookings, setCourt2Bookings] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-    // eslint-disable-next-line no-unused-vars
-    const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
-    const [selectedBooking, setSelectedBooking] = useState(null);
+    const {
+        selectedDate, setSelectedDate,
+        court1Bookings, setCourt1Bookings,
+        court2Bookings, setCourt2Bookings,
+        selectedBooking, setSelectedBooking
+    } = useContext(BookingContext);
 
-    useEffect(() => {
-        fetchBookings(selectedDate);
-    }, [selectedDate]);
-
-    const onChange = (newDate) => {
-        setSelectedDate(newDate);
-        fetchBookings(newDate);
-    };
-
-    const fetchBookings = async (date) => {
+    const fetchBookings = useCallback(async (date) => {
         const formattedDate = date.toISOString().split('T')[0];
         const court1Id = '65768b76da0ab5cec28c9f33'; 
         const court2Id = '65768b76da0ab5cec28c9f34'; 
         const token = localStorage.getItem('token');
-        console.log("Token: ", token);
     
         try {
-            // Fetch bookings for Court 1
             const responseCourt1 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court1Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -47,10 +34,8 @@ function CalendarComponent() {
                 throw new Error('Failed to fetch bookings for Court 1');
             }
             const dataCourt1 = await responseCourt1.json();
-            console.log("Court 1 Bookings:", dataCourt1);
             setCourt1Bookings(dataCourt1);
     
-            // Fetch bookings for Court 2
             const responseCourt2 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court2Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -60,16 +45,23 @@ function CalendarComponent() {
                 throw new Error('Failed to fetch bookings for Court 2');
             }
             const dataCourt2 = await responseCourt2.json();
-            console.log("Court 2 Bookings:", dataCourt2);
             setCourt2Bookings(dataCourt2);
         } catch (error) {
             console.error('Error fetching bookings:', error);
         }
+    }, [setCourt1Bookings, setCourt2Bookings]);
+
+    useEffect(() => {
+        fetchBookings(selectedDate);
+    }, [selectedDate, fetchBookings]);
+
+    const onChange = (newDate) => {
+        setSelectedDate(newDate);
+        fetchBookings(newDate);
     };
-    
 
     const calculateAvailableTimeSlots = (bookings) => {
-        const operatingHours = { start: 9, end: 20 }; 
+        const operatingHours = { start: 9, end: 20 };
         const timeSlots = [];
     
         for (let hour = operatingHours.start; hour < operatingHours.end; hour++) {
@@ -78,20 +70,11 @@ function CalendarComponent() {
             const slotEnd = new Date(slotStart);
             slotEnd.setHours(hour + 1, 0, 0, 0);
     
-            // console.log(`Slot Start: ${slotStart}, Slot End: ${slotEnd}`); 
-    
             const isAvailable = !bookings.some(booking => {
                 const bookingStart = new Date(booking.timeSlot.start);
                 const bookingEnd = new Date(booking.timeSlot.end);
-                
-                // console.log(`Booking Start: ${bookingStart}, Booking End: ${bookingEnd}`);
     
-                if (slotStart < bookingEnd && slotEnd > bookingStart) {
-                    console.log('This slot should be marked as unavailable'); 
-                    return true;
-                }
-                // console.log("Generated time slots:", timeSlots);
-                return false;
+                return slotStart < bookingEnd && slotEnd > bookingStart;
             });
     
             timeSlots.push({ time: `${hour.toString().padStart(2, '0')}:00`, available: isAvailable });
@@ -99,18 +82,11 @@ function CalendarComponent() {
     
         return timeSlots;
     };
-    
 
     const handleTimeSlotSelection = (slot, courtNumber) => {
-        // console.log("Slot selected:", slot);
         const newBooking = { time: slot.time, courtNumber: courtNumber, date: selectedDate };
         setSelectedBooking(newBooking);
     };
-
-    useEffect(() => {
-        // console.log("Updated selectedBooking state:", selectedBooking);
-    }, [selectedBooking]);
-
 
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
     const court2TimeSlots = calculateAvailableTimeSlots(court2Bookings);
