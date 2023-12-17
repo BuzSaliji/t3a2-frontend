@@ -7,9 +7,10 @@
     border-radius: 15px;
     padding: 20px;
     margin: 40px;
+    margin-top: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 80%;
-    max-width: 500px; /* Adjust as needed */
+    max-width: 500px; 
 }
 
 .booking-confirmation h2 {
@@ -27,4 +28,23 @@
 
 .booking-confirmation p strong {
     font-weight: bold;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px; 
+    max-width: 500px; 
+    width: 80%; 
+    border-radius: 15px;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto; 
+    margin-top: 30px;
+    border-radius: 5%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.8; 
 }

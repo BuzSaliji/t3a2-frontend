@@ -7,7 +7,7 @@ import Register from './components/register/Register.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
 import Footer from './components/footer/Footer.jsx';
 import CalendarComponent from './components/calendar/Calendar.jsx'; 
-import Confirmation from './components/confirmation/confirmation.jsx';
+import Confirmation from './components/confirmation/Confirmation.jsx';
 import './App.css';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} /> 
             <Route path="/calendar" element={<CalendarComponent />} /> 
-            <Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/confirmation/:bookingId" element={<Confirmation />} />
           </Routes>
         <Footer />
       </Router>

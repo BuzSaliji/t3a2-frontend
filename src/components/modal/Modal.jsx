@@ -75,7 +75,8 @@ const Modal = ({ onClose }) => {
 
             const responseData = await response.json();
             console.log('Booking confirmed:', responseData);
-            navigate('/booking-confirmation', { 
+
+            navigate(`/confirmation/${responseData._id}`, { 
                 state: { 
                     bookingDetails: responseData 
                 }
