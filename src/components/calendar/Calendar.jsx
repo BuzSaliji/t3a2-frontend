@@ -1,21 +1,20 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { BookingContext } from '../../context/BookingContext';
 import Calendar from 'react-calendar';
-import moment from 'moment-timezone';
-import Modal from '../modal/Modal'; 
+import Modal from '../modal/Modal';
 import 'react-calendar/dist/Calendar.css';
 import './Calendar.css';
 
-const utcTime = '2023-12-12T09:00:00Z';
-const localTime = moment(utcTime).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss');
-console.log(localTime); 
-
 function CalendarComponent() {
     const {
-        selectedDate, setSelectedDate,
-        court1Bookings, setCourt1Bookings,
-        court2Bookings, setCourt2Bookings,
-        selectedBooking, setSelectedBooking
+        selectedDate,
+        setSelectedDate,
+        court1Bookings,
+        setCourt1Bookings,
+        court2Bookings,
+        setCourt2Bookings,
+        selectedBooking,
+        setSelectedBooking
     } = useContext(BookingContext);
 
     const fetchBookings = useCallback(async (date) => {
@@ -23,24 +22,28 @@ function CalendarComponent() {
         const court1Id = '65768b76da0ab5cec28c9f33'; 
         const court2Id = '65768b76da0ab5cec28c9f34'; 
         const token = localStorage.getItem('token');
-    
+
         try {
+            // Fetch bookings for Court 1
             const responseCourt1 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court1Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
+
             if (!responseCourt1.ok) {
                 throw new Error('Failed to fetch bookings for Court 1');
             }
             const dataCourt1 = await responseCourt1.json();
             setCourt1Bookings(dataCourt1);
-    
+
+            // Fetch bookings for Court 2
             const responseCourt2 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court2Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
+
             if (!responseCourt2.ok) {
                 throw new Error('Failed to fetch bookings for Court 2');
             }
@@ -73,7 +76,6 @@ function CalendarComponent() {
             const isAvailable = !bookings.some(booking => {
                 const bookingStart = new Date(booking.timeSlot.start);
                 const bookingEnd = new Date(booking.timeSlot.end);
-    
                 return slotStart < bookingEnd && slotEnd > bookingStart;
             });
     
