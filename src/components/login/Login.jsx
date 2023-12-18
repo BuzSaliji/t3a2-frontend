@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import logo from '../../assets/images/Black logo - no background.png';
-import ballandcourt from '../../assets/images/ballandcourt.jpg';
+import whiteLogo from '../../assets/images/White logo - no background.png';
 import './Login.scss';
 
 function Login() {
@@ -72,8 +72,8 @@ function Login() {
                 <p className="signup-link">Not registered? <Link to="/register">Sign up!</Link></p>
             </form>
             </div>
-            <div className="login-image-container">
-                <img src={ballandcourt} alt="Descriptive Alt Text" />
+            <div className="logo-container">
+                <img src={whiteLogo} alt="Court Connect Logo" />
             </div>
         </div>
     );
