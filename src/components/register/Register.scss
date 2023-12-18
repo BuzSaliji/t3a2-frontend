@@ -1,70 +1,50 @@
-@import '../scss/main.scss';
+@import  '../scss/main.scss';
 
 * {
     box-sizing: border-box;
     font-family: 'Libre Franklin', sans-serif;
 }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-.login-page {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-container {
+.register-container {
     @include flex-center;
     background-color: $primary-color;
-    width: 70%;
     border-radius: 15px;
     padding: 20px;
-    margin: 40px;
+    margin: 40px 40px 40px 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    h1 {
-        font-size: 50px;
-        font-weight: 110px;
-        margin-bottom: 40px;
-    }
+.register-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
 
-    .logo {
-        width: 100px; 
-        height: auto;
-        margin-bottom: 20px;
-    }
+.form-group {
+    margin-bottom: 15px;
+}
 
-    .login-form {
-        width: 100%;
-        max-width: 400px;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-    }
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
 
-    .form-group {
-        margin-bottom: 15px;
+.logo {
+    width: 100px; 
+    height: auto;
+    margin-bottom: 20px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    }
-
-    button {
+button {
         background-color: #2a2a2a; 
         color: white;
         padding: 10px 15px;
@@ -79,35 +59,25 @@ body, html {
         }
     }
 
-    .signup-link {
-        margin-top: 20px;
 
-        a {
-            color: #111111;
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-}
-
-.logo-container {
+.register-logo-container {
     display: none;
 }
 
 
 
 @include breakpoint-md {
-    .login-container {
+    .register-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         flex-grow: 1;
         width: 70%;
 
         .logo {
-            width: 150px; 
-            height: auto;
+            width: 120px; 
+            height: 120px;
             margin-bottom: 20px;
         }
 
@@ -115,25 +85,23 @@ body, html {
             font-size: 60px;
         }
 
-        .login-form {
+        .register-form {
             max-width: 450px; 
         }
     }
 
-    .logo-container {
-        display: none;
-    }
+    
 }
 
 
 @include breakpoint-lg {
-    .login-page {
+    .register-page {
         flex-direction: row;
         justify-content: space-evenly;
         align-items: stretch; 
         flex-grow: 1;
 
-        .login-container, .logo-container {
+        .register-container, .register-logo-container {
             flex: 1; 
             margin: 20px;
             padding: 20px;
@@ -141,11 +109,11 @@ body, html {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .login-container {
-            .login-form {
+        .register-container {
+            .register-form {
                 input, button {
                     padding: 15px;
-                    font-size: 1 em; 
+                    font-size: 1em;
                 }
 
                 label {
@@ -158,7 +126,7 @@ body, html {
             }
         }
 
-        .logo-container {
+        .register-logo-container {
             display: flex;
             justify-content: center;
             align-items: center;

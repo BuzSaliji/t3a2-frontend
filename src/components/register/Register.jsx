@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import logo from '../../assets/images/Black logo - no background.png';
-import './Register.css';
+import whiteLogo from '../../assets/images/White logo - no background.png';
+import './Register.scss';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -52,41 +53,46 @@ function Register() {
 };  
 
     return (
-        <div className="register-container">
-            <img src={logo} alt="Court Connect Logo" className="logo" />
-            <h1>Register</h1>
-            <form className="register-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        value={password}
-                        autoComplete="current-password"
-                        onChange={(e) => setPassword(e.target.value)} 
-                    />
-                </div>
-                <button type="submit">Register</button>
-                <p>Already have an account? <Link to="/">Log In!</Link></p>
-            </form>
+        <div className="register-page">
+            <div className="register-container">
+                <img src={logo} alt="Court Connect Logo" className="logo" />
+                <h1>Register</h1>
+                <form className="register-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            value={username} 
+                            onChange={(e) => setUsername(e.target.value)} 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            value={password}
+                            autoComplete="current-password"
+                            onChange={(e) => setPassword(e.target.value)} 
+                        />
+                    </div>
+                    <button type="submit">Register</button>
+                    <p>Already have an account? <Link to="/">Log In!</Link></p>
+                </form>
+            </div>
+            <div className="register-logo-container">
+                <img src={whiteLogo} alt="Court Connect Logo" />
+            </div>
         </div>
     );
 }
