@@ -1,0 +1,147 @@
+@import '../scss/main.scss';
+
+* {
+    box-sizing: border-box;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.login-page {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    @include flex-center;
+    background-color: $primary-color;
+    width: 70%;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    h1 {
+        font-size: 50px;
+        font-weight: 110px;
+        margin-bottom: 40px;
+    }
+
+    .logo {
+        width: 100px; 
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .login-form {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    }
+
+    button {
+        background-color: #2a2a2a; 
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        max-width: 400px;
+
+        &:hover {
+            background-color: #111111;
+        }
+    }
+
+    .signup-link {
+        margin-top: 20px;
+
+        a {
+            color: #111111;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.login-image-container {
+    display: none;
+}
+
+
+
+@include breakpoint-md {
+    .login-container {
+
+        flex-grow: 1;
+        width: 70%;
+
+        .logo {
+            width: 140px;
+        }
+
+        h1 {
+            font-size: 60px;
+        }
+
+        .login-form {
+            max-width: 450px; 
+        }
+    }
+
+    .image-container {
+        display: none;
+    }
+}
+
+@include breakpoint-lg {
+    .login-page {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+
+        .login-container, .login-image-container {
+            width: 40%;
+            margin: 20px;
+        }
+
+        .login-image-container {
+            display: block;
+            img {
+                width: 100%; 
+                height: auto;
+                border-radius: 15px;
+            }
+        }
+    }
+}

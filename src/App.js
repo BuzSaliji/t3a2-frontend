@@ -8,7 +8,7 @@ import Navbar from './components/navbar/Navbar.jsx';
 import Footer from './components/footer/Footer.jsx';
 import CalendarComponent from './components/calendar/Calendar.jsx'; 
 import Confirmation from './components/confirmation/Confirmation.jsx';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
