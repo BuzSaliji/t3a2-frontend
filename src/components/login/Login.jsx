@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import logo from '../../assets/images/Black logo - no background.png';
-import './Login.css';
+import whiteLogo from '../../assets/images/White logo - no background.png';
+import './Login.scss';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -53,10 +54,10 @@ function Login() {
   
 
     return (
-        <div className="login-container">
-            <div className="logo-container">
+        <div className="login-page">
+            <div className="login-container">
                 <img src={logo} alt="Court Connect Logo" className="logo" />
-            </div>
+            
             <h1>Login</h1>
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -70,6 +71,10 @@ function Login() {
                 <button type="submit">Login</button>
                 <p className="signup-link">Not registered? <Link to="/register">Sign up!</Link></p>
             </form>
+            </div>
+            <div className="logo-container">
+                <img src={whiteLogo} alt="Court Connect Logo" />
+            </div>
         </div>
     );
 }

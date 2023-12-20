@@ -1,0 +1,8 @@
+
+@mixin breakpoint-md {
+    @media (min-width: 580px) and (max-width: 992px) { @content; }
+}
+
+@mixin breakpoint-lg {
+    @media (min-width: 993px) { @content; }
+}

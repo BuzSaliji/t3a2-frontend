@@ -1,23 +1,44 @@
+@import '../../scss/main.scss';
+
 .main-container {
     display: flex; 
-    flex-direction: column; 
-    justify-content: flex-start; 
-    align-items: center; 
-    max-height: calc(100vh - 100px)
+    flex-direction: column;
+    align-items: stretch; 
+    justify-content: center;
+    width: 100%;
+    height: 83vh;
+
+    @include breakpoint-lg {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: stretch; 
+
+        .calendar-container, .court-time-slots-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            margin: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    }
 }
 
-.calendar-container {
-    width: 80%;
-    margin-top: 22px; 
-    padding: 20px;
+.calendar-container, .court-time-slots-container {
     background-color: #abedd8; 
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 20px;
+    margin: 20px;
 }
 
 .react-calendar {
     border: none;
     padding: 10px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .react-calendar__navigation {
@@ -74,19 +95,15 @@
 }
 
 .court-time-slots-container {
-    display: flex;
-    justify-content: space-around;
-    position: relative;
-    top: -20px;
     background-color: #abedd8;
-    width: 80%;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 .court-container {
     flex: 1;
-    margin: 0 10px 20px 10px ;
+    margin: 0 10px 20px 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .court-container h3 {
@@ -96,9 +113,10 @@
 }
 
 .time-slots {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
-    gap: 10px;
+    flex-grow: 1; 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
     justify-content: center;
 }
 
@@ -111,6 +129,7 @@
     border-radius: 4px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-basis: calc(33.33% - 20px);
 }
 
 .time-slots button:hover {
@@ -123,5 +142,6 @@
     cursor: not-allowed;
     opacity: 0.5;
 }
+
 
 
