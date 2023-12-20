@@ -3,7 +3,7 @@ import { BookingContext } from '../../context/BookingContext';
 import Calendar from 'react-calendar';
 import Modal from '../modal/Modal';
 import 'react-calendar/dist/Calendar.css';
-import './Calendar.css';
+import './Calendar.scss';
 
 function CalendarComponent() {
     const {
@@ -64,7 +64,7 @@ function CalendarComponent() {
     };
 
     const calculateAvailableTimeSlots = (bookings) => {
-        const operatingHours = { start: 9, end: 20 };
+        const operatingHours = { start: 9, end: 18 };
         const timeSlots = [];
     
         for (let hour = operatingHours.start; hour < operatingHours.end; hour++) {
@@ -97,6 +97,7 @@ function CalendarComponent() {
         <div className="main-container">
             <div className="calendar-container">
                 <Calendar onChange={onChange} value={selectedDate} />
+        
             </div>
     
             <div className="court-time-slots-container">
