@@ -1,6 +1,6 @@
 import React from 'react';
 import { SocialIcon } from 'react-social-icons';
-import './Footer.css';
+import './Footer.scss';
 
 function Footer() {
     const iconStyle = { height: 20, width: 20 };

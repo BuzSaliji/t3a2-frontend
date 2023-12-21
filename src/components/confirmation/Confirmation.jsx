@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import racquetAndBall from '../../assets/images/racquetandball.jpg';
-
-import './Confirmation.css';
+import whiteLogo from '../../assets/images/White logo - no background.png';
+import './Confirmation.scss';
 
 const Confirmation = () => {
     const navigate = useNavigate();
@@ -53,8 +52,8 @@ const Confirmation = () => {
 
     
     return (
-        <div className="booking-confirmation-page">
-            <div className="booking-confirmation">
+        <div className="confirmation-page">
+            <div className="confirmation-container">
                 <h2>Booking Confirmed!</h2>
                 <p><strong>Date:</strong> {formattedDate}</p>
                 <p><strong>Time:</strong> {formattedTime}</p>
@@ -62,10 +61,8 @@ const Confirmation = () => {
                 <p><strong>Username:</strong> {bookingDetails.user.username}</p>
                 <button onClick={handleBookAgain}>Book Again</button>
             </div>
-
-            <div className="image-container">
-                <img src={racquetAndBall} alt="racquet and ball" />
-
+            <div className="logo-container">
+                <img src={whiteLogo} alt="Court Connect Logo" />
             </div>
         </div>
     );

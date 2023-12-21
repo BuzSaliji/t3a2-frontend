@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { BookingContext } from '../../context/BookingContext';
 import { useNavigate } from 'react-router-dom';
-import './Modal.css'; 
+import './Modal.scss'; 
 
 const Modal = ({ onClose }) => {
     const { selectedBooking } = useContext(BookingContext);

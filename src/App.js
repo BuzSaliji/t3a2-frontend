@@ -14,19 +14,24 @@ function App() {
   return (
     <UserProvider>
       <BookingProvider>
-      <Router>
-        <Navbar />
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} /> 
-            <Route path="/calendar" element={<CalendarComponent />} /> 
-            <Route path="/confirmation/:bookingId" element={<Confirmation />} />
-          </Routes>
-        <Footer />
-      </Router>
+        <Router>
+          <div className="page-container">
+            <Navbar />
+            <main className="content">
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/register" element={<Register />} /> 
+                <Route path="/calendar" element={<CalendarComponent />} /> 
+                <Route path="/confirmation/:bookingId" element={<Confirmation />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
       </BookingProvider>
     </UserProvider>
   );
 }
 
 export default App;
+

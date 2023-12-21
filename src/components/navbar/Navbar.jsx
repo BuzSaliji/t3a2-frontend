@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/161783673_padded_logo.png'; 
 import { slide as Menu } from 'react-burger-menu';
-import './Navbar.css'; 
+import './Navbar.scss'; 
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);

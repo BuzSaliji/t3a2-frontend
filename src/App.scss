@@ -2,10 +2,11 @@ html, body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   overflow: hidden;
 }
 
-#root {
+.page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -13,4 +14,6 @@ html, body {
 
 .content {
   flex: 1;
+  padding: 20px;
+  overflow: auto;
 }
