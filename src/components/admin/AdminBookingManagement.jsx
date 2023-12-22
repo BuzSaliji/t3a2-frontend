@@ -5,6 +5,7 @@ import './AdminBookingManagement.scss';
 
 const AdminBookingManagement = () => {
     const [bookings, setBookings] = useState([]);
+    const [editableBookingId, setEditableBookingId] = useState(null);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings`)
@@ -16,7 +17,14 @@ const AdminBookingManagement = () => {
             });
     }, []);
 
-    const handleEditBooking = async (bookingId, updatedData) => {
+    const handleEditBooking = async (e, bookingId) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const updatedData = {
+            date: formData.get('date'),
+            timeslot: formData.get('timeslot'),
+        };
+
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/${bookingId}`, {
                 method: 'PATCH',
@@ -30,6 +38,7 @@ const AdminBookingManagement = () => {
 
             const updatedBooking = await response.json();
             setBookings(bookings.map(booking => booking._id === bookingId ? updatedBooking : booking));
+            setEditableBookingId(null);
             toast.success("Booking updated successfully!");
         } catch (error) {
             console.error('Error updating booking:', error);
@@ -60,9 +69,29 @@ const AdminBookingManagement = () => {
             <ToastContainer />
             {bookings.map(booking => (
                 <div key={booking._id} className="booking-item">
-                    {/* Display booking details */}
-                    <button onClick={() => handleEditBooking(booking._id, {/* updatedData */})}>Edit</button>
-                    <button onClick={() => handleDeleteBooking(booking._id)}>Delete</button>
+                    {editableBookingId === booking._id ? (
+                        <form onSubmit={(e) => handleEditBooking(e, booking._id)}>
+                            <input 
+                                type="date" 
+                                defaultValue={booking.date} 
+                                name="date"
+                            />
+                            <input 
+                                type="text" 
+                                defaultValue={booking.timeslot} 
+                                name="timeslot"
+                            />
+                            <button type="submit">Save</button>
+                            <button type="button" onClick={() => setEditableBookingId(null)}>Cancel</button>
+                        </form>
+                    ) : (
+                        <>
+                            <div>Date: {booking.date}</div> 
+                            <div>Timeslot: {booking.timeslot}</div> 
+                            <button onClick={() => setEditableBookingId(booking._id)}>Edit</button>
+                            <button onClick={() => handleDeleteBooking(booking._id)}>Delete</button>
+                        </>
+                    )}
                 </div>
             ))}
         </div>
