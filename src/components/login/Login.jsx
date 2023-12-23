@@ -44,6 +44,8 @@ function Login() {
               // Use the login method from the context after the response is successful
               login(data.user, data.jwt);
               navigate('/calendar');
+              console.log('Login successful, user data:', data.user);
+
           } else {
               throw new Error('JWT or User ID not received');
           }
@@ -62,7 +64,7 @@ function Login() {
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Email Address</label>
-                    <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" id="email" value={email} autoComplete="username" onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>

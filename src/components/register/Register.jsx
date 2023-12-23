@@ -64,6 +64,7 @@ function Register() {
                             type="text" 
                             id="username" 
                             value={username} 
+                            autoComplete="username"
                             onChange={(e) => setUsername(e.target.value)} 
                         />
                     </div>
@@ -73,6 +74,7 @@ function Register() {
                             type="email" 
                             id="email" 
                             value={email} 
+                            autoComplete="email"
                             onChange={(e) => setEmail(e.target.value)} 
                         />
                     </div>

@@ -17,6 +17,8 @@ function Navbar() {
         setMenuOpen(!menuOpen);
     };
 
+    console.log("User context data:", user);
+
 
     return (
         <nav className="navbar">
