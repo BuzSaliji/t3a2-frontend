@@ -28,7 +28,7 @@
 @include breakpoint-lg {
     .confirmation-page {
         flex-direction: row;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: stretch;
 
         .confirmation-container, .logo-container {

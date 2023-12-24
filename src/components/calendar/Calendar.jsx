@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import './Calendar.scss';
 
 function CalendarComponent() {
+    // Destructuring context values
     const {
         selectedDate,
         setSelectedDate,
@@ -17,14 +18,17 @@ function CalendarComponent() {
         setSelectedBooking
     } = useContext(BookingContext);
 
+    // Fetches bookings for a given date
     const fetchBookings = useCallback(async (date) => {
+        // Formatting the date to ISO string and extracting the date part
         const formattedDate = date.toISOString().split('T')[0];
+        // Hardcoded court IDs
         const court1Id = '65768b76da0ab5cec28c9f33'; 
         const court2Id = '65768b76da0ab5cec28c9f34'; 
         const token = localStorage.getItem('token');
 
         try {
-            // Fetch bookings for Court 1
+            // Fetching bookings for Court 1
             const responseCourt1 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court1Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -37,7 +41,7 @@ function CalendarComponent() {
             const dataCourt1 = await responseCourt1.json();
             setCourt1Bookings(dataCourt1);
 
-            // Fetch bookings for Court 2
+            // Fetching bookings for Court 2
             const responseCourt2 = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/by-court?courtId=${court2Id}&startDate=${formattedDate}&endDate=${formattedDate}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -54,15 +58,18 @@ function CalendarComponent() {
         }
     }, [setCourt1Bookings, setCourt2Bookings]);
 
+    // Effect to fetch bookings when selectedDate changes
     useEffect(() => {
         fetchBookings(selectedDate);
     }, [selectedDate, fetchBookings]);
 
+    // Handles date change in the calendar
     const onChange = (newDate) => {
         setSelectedDate(newDate);
         fetchBookings(newDate);
     };
 
+    // Calculates available time slots based on bookings
     const calculateAvailableTimeSlots = (bookings) => {
         const operatingHours = { start: 9, end: 18 };
         const timeSlots = [];
@@ -73,6 +80,7 @@ function CalendarComponent() {
             const slotEnd = new Date(slotStart);
             slotEnd.setHours(hour + 1, 0, 0, 0);
     
+            // Checking if the slot is available
             const isAvailable = !bookings.some(booking => {
                 const bookingStart = new Date(booking.timeSlot.start);
                 const bookingEnd = new Date(booking.timeSlot.end);
@@ -85,11 +93,13 @@ function CalendarComponent() {
         return timeSlots;
     };
 
+    // Handles selection of a time slot
     const handleTimeSlotSelection = (slot, courtNumber) => {
         const newBooking = { time: slot.time, courtNumber: courtNumber, date: selectedDate };
         setSelectedBooking(newBooking);
     };
 
+    // Calculating available time slots for each court
     const court1TimeSlots = calculateAvailableTimeSlots(court1Bookings);
     const court2TimeSlots = calculateAvailableTimeSlots(court2Bookings);
 
@@ -97,16 +107,14 @@ function CalendarComponent() {
         <div className="main-container">
             <div className="calendar-container">
                 <Calendar onChange={onChange} value={selectedDate} />
-        
             </div>
     
             <div className="court-time-slots-container">
+                {/* Court 1 Time Slots */}
                 <div className="court-container">
                     <h3>Court 1</h3>
                     <div className="time-slots">
-                    {court1TimeSlots.map((slot, index) => {
-                        // console.log(`Rendering Court 1 Slot: ${slot.time}, Available: ${slot.available}`);
-                        return (
+                        {court1TimeSlots.map((slot, index) => (
                             <button 
                                 key={index} 
                                 onClick={() => slot.available && handleTimeSlotSelection(slot, 1)}
@@ -114,17 +122,15 @@ function CalendarComponent() {
                             >
                                 {slot.time}
                             </button>
-                        );
-                    })}
+                        ))}
                     </div>
                 </div>
     
+                {/* Court 2 Time Slots */}
                 <div className="court-container">
                     <h3>Court 2</h3>
                     <div className="time-slots">
-                    {court2TimeSlots.map((slot, index) => {
-                        // console.log(`Rendering Court 2 Slot: ${slot.time}, Available: ${slot.available}`);
-                        return (
+                        {court2TimeSlots.map((slot, index) => (
                             <button 
                                 key={index} 
                                 onClick={() => slot.available && handleTimeSlotSelection(slot, 2)}
@@ -132,21 +138,20 @@ function CalendarComponent() {
                             >
                                 {slot.time}
                             </button>
-                        );
-                    })}
-                       
-                        {selectedBooking && (
-                            <Modal
-                                selectedBooking={selectedBooking}
-                                onClose={() => setSelectedBooking(null)}
-                            />
-                        )}
+                        ))}
                     </div>
                 </div>
             </div>
+
+            {/* Modal for selected booking */}
+            {selectedBooking && (
+                <Modal
+                    selectedBooking={selectedBooking}
+                    onClose={() => setSelectedBooking(null)}
+                />
+            )}
         </div>
     );
 }
 
 export default CalendarComponent;
-
