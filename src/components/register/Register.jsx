@@ -6,16 +6,22 @@ import whiteLogo from '../../assets/images/White logo - no background.png';
 import './Register.scss';
 
 function Register() {
+    // State hooks for username, email, and password
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    // Accessing the login function from UserContext
     const { login } = useContext(UserContext);
+
+    // Hook to programmatically navigate to other routes
     const navigate = useNavigate();
 
+    // Function to handle form submission
     const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        // Construct the user data
+        event.preventDefault(); // Prevents the default form submission behavior
+
+        // Constructing the user data for registration
         const userData = {
             username,
             email,
@@ -23,7 +29,7 @@ function Register() {
         };
     
         try {
-            // Send a POST request to the backend
+            // Sending a POST request to the backend for registration
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
                 method: 'POST',
                 headers: {
@@ -32,38 +38,42 @@ function Register() {
                 body: JSON.stringify(userData), 
             });
     
-            // Check if the request was successful
+            // Checking if the request was successful
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Registration failed');
             }
     
-            // Handle the response data
+            // Handling the response data
             const data = await response.json();
             console.log(data);
 
+            // Logging in the user after successful registration
             login(data.user, data.jwt);
             
-            navigate('/calendar')
+            // Navigating to the calendar page
+            navigate('/calendar');
 
         } catch (error) {
             console.error('Registration error:', error);
-    };
+        }
+    };  
 
-};  
-
+    // Rendering the registration form
     return (
         <div className="register-page">
             <div className="register-container">
                 <img src={logo} alt="Court Connect Logo" className="logo" />
                 <h1>Register</h1>
                 <form className="register-form" onSubmit={handleSubmit}>
+                    {/* Input fields for username, email, and password */}
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input 
                             type="text" 
                             id="username" 
                             value={username} 
+                            autoComplete="username"
                             onChange={(e) => setUsername(e.target.value)} 
                         />
                     </div>
@@ -73,6 +83,7 @@ function Register() {
                             type="email" 
                             id="email" 
                             value={email} 
+                            autoComplete="email"
                             onChange={(e) => setEmail(e.target.value)} 
                         />
                     </div>

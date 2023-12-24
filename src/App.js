@@ -9,6 +9,7 @@ import Footer from './components/footer/Footer.jsx';
 import CalendarComponent from './components/calendar/Calendar.jsx'; 
 import Confirmation from './components/confirmation/Confirmation.jsx';
 import './App.scss';
+import AdminBookingManagement from './components/admin/AdminBookingManagement.jsx';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/register" element={<Register />} /> 
                 <Route path="/calendar" element={<CalendarComponent />} /> 
                 <Route path="/confirmation/:bookingId" element={<Confirmation />} />
+                <Route path="/admin" element={<AdminBookingManagement />} />
               </Routes>
             </main>
             <Footer />
