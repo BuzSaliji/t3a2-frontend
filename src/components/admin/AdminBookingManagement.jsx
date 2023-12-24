@@ -16,11 +16,16 @@ const AdminBookingManagement = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     const convertToLocalTime = (utcDate) => {
-        return moment(utcDate).local().format('DD-MM-YYYY'); 
+        return moment(utcDate).local().format('DD-MM-YYYY HH:mm'); 
     };
-
+    
     const extractTime = (dateTime) => {
         return moment(dateTime).format('HH:mm'); 
+    };
+
+    const calculateEndTime = (startDate) => {
+        // Example: Adds 1 hour to the start date
+        return new Date(startDate.getTime() + 60 * 60 * 1000);
     };
     
     useEffect(() => {
@@ -50,12 +55,20 @@ const AdminBookingManagement = () => {
 
     const handleEditBooking = async (e, bookingId) => {
         e.preventDefault();
+
+        // Construct the updatedData object
         const updatedData = {
-                 dateTime: selectedDate.toISOString(),
+            date: selectedDate.toISOString(),
+            timeSlot: {
+                start: selectedDate.toISOString(),
+                end: calculateEndTime(selectedDate).toISOString()
+            }
         };
-    
+
+        console.log("Sending updated data:", updatedData);
+
         const token = localStorage.getItem('token'); // Retrieve the stored token
-    
+
         if (token) {
             try {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/bookings/${bookingId}`, {
@@ -66,26 +79,33 @@ const AdminBookingManagement = () => {
                     },
                     body: JSON.stringify(updatedData),
                 });
-    
+
                 if (!response.ok) throw new Error('Network response was not ok.');
-    
-                const updatedBooking = await response.json();
-                setBookings(bookings.map(booking => booking._id === bookingId ? updatedBooking : booking));
+
+                const updatedBooking = await response.json(); // Get the updated booking data from the response
+
+                // Update the bookings state with the updated booking
+                setBookings(bookings.map(booking => 
+                    booking._id === bookingId ? updatedBooking : booking
+                ));
+
                 setEditableBookingId(null); // Reset the editable booking ID
-                // Handle success (e.g., show a success message)
+                // Optionally, show a success message
             } catch (error) {
                 console.error('Error updating booking:', error);
-                // Handle error (e.g., show an error message)
+                // Optionally, handle the error (e.g., show an error message)
             }
         } else {
             // Handle the case where the token is not available
         }
     };
+    
 
     const onEditClick = (booking) => {
         setSelectedDate(new Date(booking.dateTime)); // Adjust according to your data structure
         setEditableBookingId(booking._id);
     };
+
     
     
 
@@ -116,6 +136,8 @@ const AdminBookingManagement = () => {
         }
     };
 
+    
+
     return (
         <div className="admin-booking-management">
             <ToastContainer />
@@ -126,7 +148,10 @@ const AdminBookingManagement = () => {
                         <form onSubmit={(e) => handleEditBooking(e, booking._id)}>
                             <ReactDatePicker
                                 selected={selectedDate}
-                                onChange={(date) => setSelectedDate(date)}
+                                onChange={(date) => {
+                                    setSelectedDate(date);
+                                    console.log("Selected Date:", date);
+                                }}
                                 showTimeSelect
                                 dateFormat="Pp"
                             />
@@ -140,7 +165,8 @@ const AdminBookingManagement = () => {
                             <div>Booking ID: {booking._id}</div>
                             <div>Username: {booking.username}</div>
                             <div>Date: {convertToLocalTime(booking.date)}</div>
-                            <div>Timeslot: {booking.date ? extractTime(booking.date) : 'Not specified'}</div>
+                            <div>Timeslot: {extractTime(booking.timeSlot.start)} - {extractTime(booking.timeSlot.end)}</div>
+
 
                             <button onClick={() => setEditableBookingId(booking._id)}>Edit</button>
                             <button onClick={() => handleDeleteBooking(booking._id)}>Delete</button>
